@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const task = require('../models/task');
-const subtask = require('../models/subtask');
+const subtask = require('../models/subTask');
 
 const { successResponse, errorResponse } = require('../utils');
 

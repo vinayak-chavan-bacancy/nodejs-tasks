@@ -4,8 +4,6 @@ const mongoose = require('mongoose');
 const user = require('../models/user');
 const { successResponse, errorResponse } = require('../utils');
 
-let userId;
-
 const login = async (req, res) => {
   try {
       const emailID = req.body.emailID;
@@ -15,18 +13,14 @@ const login = async (req, res) => {
         return errorResponse(req, res, 'Invalid credentials.', 404);
       }
       const isMatch = await bcrypt.compare(password, userData.password);
-      console.log(isMatch)
-      if (isMatch) {
-          userId = userData._id;
-          console.log(userId);
-          console.log('user logged in');
-          console.log('role:' + userData.role);
-      }
-      else {
+      if(!isMatch){
         return errorResponse(req, res, 'Invalid credentials.', 404);
+      } else {
+        const userDetails = await user.find({ emailID: emailID}, {username:1, emailID:1});
+        return successResponse(req, res, userDetails, 200);
       }
   } catch (error) {
-    return errorResponse(req, res, 'something went wrong', 400, { err: error });
+    return errorResponse(req, res, error.message, 400, { err: error });
   }
 }
 
