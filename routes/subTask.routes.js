@@ -1,12 +1,13 @@
-// const express = require("express");
+const express = require("express");
 
-// const { addSubtask, viewSubtasks, updateSubtask, updateSubtask  } = require('../controllers/taskController');
+const { addSubtask, viewSubtasks, updateSubtask, deleteSubtask, viewOneSubtask } = require('../controllers/subtaskController');
 
-// const route = express.Router();
+const route = express.Router();
 
-// route.post('/subtask/:id', addSubtask);
-// route.get('/subtask/:id', viewSubtasks);
-// route.put('/subtask/:id', updateSubtask);
-// route.delete('/subtask/:id', updateSubtask);
+route.post('/subtask/:taskid', addSubtask);
+route.get('/subtasks/:taskid', viewSubtasks);
+route.get('/subtask/:id', viewOneSubtask);
+route.put('/subtask/:id', updateSubtask);
+route.delete('/subtask/:id', deleteSubtask);
 
-// module.exports = route;
+module.exports = route;

@@ -8,8 +8,7 @@ const viewTasks = async (req, res) => {
     const taskData = await task.find();
     if(!taskData){
       return errorResponse(req, res, 'Task Not Found', 404);
-    }
-    else{
+    } else{
       return successResponse(req, res, taskData, 200);
     }
   }
