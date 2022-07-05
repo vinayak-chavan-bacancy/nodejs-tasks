@@ -1,5 +1,4 @@
 const bcrypt = require('bcryptjs');
-
 const mongoose = require('mongoose');
 
 const user = require('../models/user');
@@ -35,12 +34,16 @@ const register = async (req, res) => {
   try {
       const addinguserRecords = new user(req.body);
       console.log(addinguserRecords);
-      const insert = await addinguserRecords.save();
-      console.log(insert);
-      // const token = generateAccessToken({ username: req.body.emailID });
-      // console.log(token);
-      console.log('Registration Successful');
-      // res.redirect('/');
+      const emailID = req.body.emailID;
+      const userData = await user.findOne({ emailID: emailID });
+      if (userData) {
+        return errorResponse(req, res, 'email ID allready exist', 400);
+      }
+      else {
+        const insert = await addinguserRecords.save();
+        console.log(insert);
+        console.log('Registration Successful');
+      }
   } catch (e) {
     return errorResponse(req, res, 'something went wrong', 400, { err: error });
   }
