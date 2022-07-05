@@ -46,10 +46,6 @@ const register = async (req, res) => {
   }
 }
 
-const loginview = (req, res) => {
-  res.render('login');
-}
-
 const logout = async (req, res) => {
   console.log(userId + 'logged in');
   userId = null;
@@ -59,4 +55,4 @@ const logout = async (req, res) => {
 }
 
 
-module.exports = { loginview, login, register, logout, };
+module.exports = { login, register, logout, };
