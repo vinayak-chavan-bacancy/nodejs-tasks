@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
 const task = require('../models/task');
+const subtask = require('../models/subtask');
+
 const { successResponse, errorResponse } = require('../utils');
 
 const viewTasks = async (req, res) => {
@@ -77,6 +79,7 @@ const deleteTask = async (req, res) => {
       return errorResponse(req, res, 'Task Not Found', 404);
     }
     const deleteTaskData = await task.findByIdAndDelete(id);
+    const deleteSubtask = await subtask.deleteMany( { taskID: id } )
     return successResponse(req, res, deleteTaskData, 200);
   }
   catch (error) {
