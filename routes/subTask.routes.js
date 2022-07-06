@@ -2,13 +2,14 @@ const express = require("express");
 
 const { addSubtask, viewSubtasks, updateSubtask, deleteSubtask, viewOneSubtask } = require('../controllers/subtaskController');
 const {auth} = require('../middleware/auth');
+const { isAdmin } = require('../middleware/checkRole');
 
 const route = express.Router();
 
-route.post('/subtask/:taskid', auth, addSubtask);
+route.post('/subtask/:taskid', auth, isAdmin, addSubtask);
 route.get('/subtasks/:taskid', auth, viewSubtasks);
-route.get('/subtask/:id', auth,viewOneSubtask);
-route.put('/subtask/:id', auth, updateSubtask);
-route.delete('/subtask/:id', auth, deleteSubtask);
+route.get('/subtask/:id', auth, viewOneSubtask);
+route.put('/subtask/:id', auth, isAdmin, updateSubtask);
+route.delete('/subtask/:id', auth, isAdmin, deleteSubtask);
 
 module.exports = route;
