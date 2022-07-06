@@ -8,6 +8,8 @@ const { successResponse, errorResponse } = require('../utils');
 const viewTasks = async (req, res) => {
   try {
     const taskData = await task.find();
+
+    // check if task is exist or not
     if(!taskData){
       return errorResponse(req, res, 'Task Not Found', 404);
     } else{
@@ -23,9 +25,12 @@ const viewOneTask = async (req, res) => {
   try {
     const { id } = req.params;
     const matchedTask = await task.findOne({ _id: id });
+
+    // check if task is exist or not
     if (!matchedTask) {
       return errorResponse(req, res, 'Task Not Found', 404);
     }
+
     return successResponse(req, res, matchedTask, 200);
   }
   catch (error) {
@@ -41,10 +46,10 @@ const addTask = async (req, res) => {
       title,
       status: 'Not Started',
     };
+
+    // insert task payload in database
     const newTask = new task(payload);
-    console.log(newTask);
     const insertTask = await newTask.save();
-    console.log(insertTask);
     console.log('insert successful');
     return successResponse(req, res, insertTask, 200);
   }
@@ -56,10 +61,13 @@ const addTask = async (req, res) => {
 const updateTask = async (req, res) => {
   try {
     const { id } = req.params;
+
+    // check if task exist or not
     const taskData = await task.findOne({ _id: id });
     if (!taskData) {
       return errorResponse(req, res, 'Task Not Found', 404);
     }
+
     const taskDetails = await task.findByIdAndUpdate(id, {
       title: req.body.title,
       status: req.body.status,    
@@ -74,13 +82,20 @@ const updateTask = async (req, res) => {
 const deleteTask = async (req, res) => {
   try {
     const { id } = req.params;
+
+    // check if task exist or not
     const taskData = await task.findOne({ _id: id });
     if (!taskData) {
       return errorResponse(req, res, 'Task Not Found', 404);
     }
+
+    // deleteing task from database
     const deleteTaskData = await task.findByIdAndDelete(id);
+
+    // deleteing subtask related to task from database
     const deleteSubtask = await subtask.deleteMany( { taskID: id } )
     return successResponse(req, res, deleteTaskData, 200);
+
   }
   catch (error) {
     return errorResponse(req, res, 'something went wrong', 400, { err: error });
