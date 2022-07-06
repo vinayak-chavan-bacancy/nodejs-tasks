@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = require('mongoose');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -20,9 +21,25 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         required: true,
+        enum : ['admin', 'user'],
         trim: true 
     }
 });
+
+userSchema.methods.getToken = function ({exp, secret}) {
+    
+    let token;
+    if (exp) {
+        token = jwt.sign({ id: this._id }, secret, {
+            // This time is in second
+            expiresIn: exp
+        })
+    } else {
+        token = jwt.sign({ id: this._id }, secret)
+    }
+
+    return token
+}
 
 userSchema.pre('save', async function (next) {
     if (this.isModified('password')) {
