@@ -1,53 +1,54 @@
 const express = require("express");
 
-const { viewTasks, viewOneTask, addTask, updateTask, deleteTask } = require('../controllers/taskController');
-const { auth } = require('../middleware/auth');
+const { addSubtask, viewSubtasks, updateSubtask, deleteSubtask, viewOneSubtask } = require('../controllers/subtaskController');
+const {auth} = require('../middleware/auth');
 const { isAdmin } = require('../middleware/checkRole');
 
 const route = express.Router();
+
 
 /**
  * @swagger
  * components:
  *  schemas:
- *    task:
+ *    subtask:
  *      type: object
  *      required:
  *        - title
- *        - status
+ *        - taskid
  *      properties:
  *        id: 
  *          type: string
- *          description: The auto generated id of task
+ *          description: The auto generated id of subtask
  *        title: 
  *          type: string
- *          description: The title of task
- *        status:
+ *          description: The title of subtask
+ *        taskid:
  *          type: string
- *          description: The status of task
+ *          description: The id of task
  */
 
 /**
  * @swagger
  * components:
  *  post:
- *    summary: Create a new task
- *    tags: [tasks]
+ *    summary: Create a new subtask
+ *    tags: [subtasks]
  *    requestBody:
  *      required: true
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/task'
+ *            $ref: '#/components/schemas/subtask'
  *      responses:
  *        200:
- *          description: The task created successfully
+ *          description: The subtask created successfully
  *          content:
  *            application/json:
  *            schema:
  *              type: array
  *              items:
- *                $ref: '#/components/schemas/task'
+ *                $ref: '#/components/schemas/subtask'
  *        500:
  *          description: Some server error
  */
@@ -57,51 +58,51 @@ route.post("/task", auth, isAdmin, addTask);
  * @swagger
  * /task:
  *  get:
- *    summary: Return the list of all the tasks
+ *    summary: Return the list of all the subtasks
  *    responses:
  *      200:
- *        description: The list of the tasks
+ *        description: The list of the subtasks
  *        content:
  *          application/json:
  *          schema:
  *            type: array
  *            items:
- *              $ref: '#/components/schemas/task'
+ *              $ref: '#/components/schemas/subtask'
  *      500:
  *        description: Some server error
  */
-route.get('/task', auth, viewTasks);
+route.get("/subtasks/:taskid", auth, viewSubtasks);
 
 /**
  * @swagger
  * /task/{id}:
  *   get:
- *    summary: Get the task by id
- *    tags: [task]
+ *    summary: Get the subtask by id
+ *    tags: [subtask]
  *    parameters:
  *      -in: path
  *      name: id
  *      schema:
  *        type: string
  *        required: true
- *        description: The task id
+ *        description: The subtaskid
  *   response:
  *    200:
- *      description: The task description by id
+ *      description: The subtaskdescription by id
  *      contents:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/task'
+ *            $ref: '#/components/schemas/subtask'
  *    404:
- *      description: The task is not found
+ *      description: The subtaskis not found
  */
-route.get('/task/:id', auth, viewOneTask);
+route.get("/subtask/:id", auth, viewOneSubtask);
 
 /**
  * @swagger
  * /task/{id}:
  *   put:
- *    summary: Update the task by id
+ *    summary: Update the subtaskby id
  *    tags: [task]
  *    parameters:
  *      -in: path
@@ -109,24 +110,24 @@ route.get('/task/:id', auth, viewOneTask);
  *      schema:
  *        type: string
  *        required: true
- *        description: The task id
+ *        description: The subtaskid
  *   response:
  *    200:
- *      description: The task description by id
+ *      description: The subtaskdescription by id
  *      contents:
  *        application/json:
  *          schema:
  *            $ref: '#/components/schemas/task'
  *    404:
- *      description: The task is not found
+ *      description: The subtaskis not found
  */
-route.put('/task/:id', auth, isAdmin, updateTask);
+route.put("/subtask/:id", auth, isAdmin, updateSubtask);
 
 /**
  * @swagger
- * /task/{id}:
+ * /subtask/{id}:
  *   delete:
- *    summary: Delete the task by id
+ *    summary: Delete the subtask by id
  *    tags: [task]
  *    parameters:
  *      -in: path
@@ -134,17 +135,18 @@ route.put('/task/:id', auth, isAdmin, updateTask);
  *      schema:
  *        type: string
  *        required: true
- *        description: The task id
+ *        description: The subtaskid
  *   response:
  *    200:
- *      description: The task description by id
+ *      description: The subtask description by id
  *      contents:
  *        application/json:
  *          schema:
  *            $ref: '#/components/schemas/task'
  *    404:
- *      description: The task is not found
+ *      description: The subtask is not found
  */
-route.delete('/task/:id', auth, isAdmin, deleteTask);
+route.delete("/subtask/:id", auth, isAdmin, deleteSubtask);
+
 
 module.exports = route;
