@@ -10,26 +10,7 @@ const subtaskRoutes = require('./routes/subtask.routes');
 dotenv.config();
 const port = process.env.PORT || 8000;
 
-const options = {
-    definition: {
-        openapi: "3.0.0",
-        info: {
-            title: "TODO API",
-            version: "1.0.0",
-            description: "todo app API"
-        },
-        servers: [
-            {
-                url: "http://localhost:8000"
-            }   
-        ],
-    },
-    apis: ["./routes/*.js"],
-}
-
-const specs = swaggerJsDoc(options)
 const app = express();
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
 app.use(express.urlencoded({extended: true}))
 app.use(express.json());
 
