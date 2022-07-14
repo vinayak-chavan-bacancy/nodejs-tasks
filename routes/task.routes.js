@@ -10,6 +10,7 @@ route.post("/task", auth, isAdmin, addTask);
 route.get('/task', auth, viewTasks);
 route.get('/task/:id', auth, viewOneTask);
 route.put('/task/:id', auth, isAdmin, updateTask);
+
 route.delete('/task/:id', auth, isAdmin, deleteTask);
 
 module.exports = route;
