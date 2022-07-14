@@ -6,10 +6,11 @@ const { isAdmin } = require('../middleware/checkRole');
 
 const route = express.Router();
 
-route.post('/subtask/:taskid', auth, isAdmin, addSubtask);
-route.get('/subtasks/:taskid', auth, viewSubtasks);
-route.get('/subtask/:id', auth, viewOneSubtask);
-route.put('/subtask/:id', auth, isAdmin, updateSubtask);
-route.delete('/subtask/:id', auth, isAdmin, deleteSubtask);
+route.post("/task", auth, isAdmin, addSubtask);
+route.get("/subtasks/:taskid", auth, viewSubtasks);
+route.get("/subtask/:id", auth, viewOneSubtask);
+route.put("/subtask/:id", auth, isAdmin, updateSubtask);
+route.delete("/subtask/:id", auth, isAdmin, deleteSubtask);
+
 
 module.exports = route;

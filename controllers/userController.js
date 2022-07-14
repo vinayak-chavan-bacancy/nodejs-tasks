@@ -55,14 +55,4 @@ const register = async (req, res) => {
   }
 }
 
-const logout = async (req, res) => {
-  try{
-    accessToken = NULL;
-    return successResponse(req, res, 'logout successfully', 200);
-  } catch (error) {
-    return errorResponse(req, res, error.message, error, 500);
-  }
-}
-
-
-module.exports = { login, register, logout };
+module.exports = { login, register };

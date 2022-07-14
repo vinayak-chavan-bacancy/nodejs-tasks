@@ -54,7 +54,7 @@ const addTask = async (req, res) => {
     return successResponse(req, res, insertTask, 200);
   }
   catch (error) {
-    return errorResponse(req, res, 'something went wrong', 400, { err: error });
+    return errorResponse(req, res, 'something went wrong', 500, { err: error });
   }
 };
 
@@ -101,6 +101,5 @@ const deleteTask = async (req, res) => {
     return errorResponse(req, res, 'something went wrong', 400, { err: error });
   }
 };
-
 
 module.exports = { viewTasks, viewOneTask, addTask, updateTask, deleteTask };
