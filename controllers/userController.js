@@ -55,4 +55,8 @@ const register = async (req, res) => {
   }
 }
 
-module.exports = { login, register };
+const first = async () => {
+  res.send('Hello World!');
+}
+
+module.exports = { login, register, first };
